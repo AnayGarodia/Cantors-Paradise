@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cantor's Paradise</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        /* Midnight Black Color Scheme Only */
+        --color-deep-navy: #0f0f0f;
+        --color-warm-white: #fafafa;
+        --color-mathematical-gold: #fbbf24;
+        --color-gold-glow: rgba(251, 191, 36, 0.3);
+        --color-navy-transparent: rgba(15, 15, 15, 0.8);
+        --color-navy-light: rgba(15, 15, 15, 0.1);
+        --color-navy-lighter: rgba(15, 15, 15, 0.05);
+        --color-navy-dark: #000000;
+        --color-navy-medium: #1f1f1f;
+        --color-gold-light: rgba(251, 191, 36, 0.1);
+        --color-gold-medium: rgba(251, 191, 36, 0.2);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Open Sans";
+        background: var(--color-deep-navy);
+        color: var(--color-warm-white);
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-family: "Poppins";
+      }
+
+      .geometric-lines {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.05;
+        background-image: linear-gradient(
+            45deg,
+            transparent 49%,
+            var(--color-mathematical-gold) 50%,
+            transparent 51%
+          ),
+          linear-gradient(
+            -45deg,
+            transparent 49%,
+            var(--color-mathematical-gold) 50%,
+            transparent 51%
+          );
+        background-size: 200px 200px;
+        pointer-events: none;
+      }
+
+      /* Header Styles */
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        padding: 20px 40px;
+        background: var(--color-navy-transparent);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--color-gold-glow);
+        transition: all 0.3s ease;
+      }
+
+      .header.scrolled {
+        background: var(--color-navy-dark);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--color-mathematical-gold);
+        text-decoration: none;
+        position: relative;
+        transition: all 0.3s ease;
+      }
+
+      .logo:hover {
+        transform: scale(1.05);
+      }
+
+      /* Fixed Infinity Logo using CSS */
+      .logo-infinity {
+        margin-left: 12px;
+        font-size: 48px;
+        size: 200%;
+        color: var(--color-mathematical-gold);
+        animation: glow 3s ease-in-out infinite alternate;
+        font-weight: bold;
+      }
+
+      @keyframes glow {
+        from {
+          filter: drop-shadow(0 0 5px var(--color-mathematical-gold));
+        }
+        to {
+          filter: drop-shadow(0 0 20px var(--color-mathematical-gold))
+            drop-shadow(0 0 30px var(--color-mathematical-gold));
+        }
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 32px;
+        list-style: none;
+      }
+
+      .nav-links a {
+        color: var(--color-warm-white);
+        text-decoration: none;
+        font-weight: 400;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 8px 0;
+      }
+
+      .nav-links a:hover {
+        color: var(--color-mathematical-gold);
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background: linear-gradient(
+          90deg,
+          var(--color-mathematical-gold),
+          #f4d03f
+        );
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      .cta-button {
+        background: linear-gradient(
+          135deg,
+          var(--color-mathematical-gold),
+          #b8941f
+        );
+        color: var(--color-deep-navy);
+        padding: 12px 24px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .cta-button::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .cta-button:hover::before {
+        left: 100%;
+      }
+
+      .cta-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px var(--color-gold-glow);
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(
+          135deg,
+          var(--color-deep-navy),
+          var(--color-navy-dark)
+        );
+      }
+
+      .video-background {
+        position: absolute;
+        top: 5%;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 25%;
+      }
+
+      .video-background video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          var(--color-navy-transparent),
+          rgba(26, 34, 56, 0.6)
+        );
+        z-index: -1;
+      }
+
+      .hero-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 40px;
+        z-index: 2;
+        position: relative;
+      }
+
+      .hero-text {
+        max-width: 700px;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .hero-title {
+        font-size: clamp(48px, 8vw, 84px);
+        font-weight: 400;
+        line-height: 1.2;
+        margin-bottom: 30px;
+        background: linear-gradient(
+          135deg,
+          var(--color-warm-white),
+          var(--color-mathematical-gold)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: titleGlow 4s ease-in-out infinite alternate;
+      }
+
+      @keyframes titleGlow {
+        from {
+          filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+        }
+        to {
+          filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.6));
+        }
+      }
+
+      .hero-description {
+        font-size: 18px;
+        line-height: 1.7;
+        color: var(--color-warm-white);
+        margin-bottom: 40px;
+        max-width: 600px;
+        opacity: 0.9;
+        animation: fadeInUp 1s ease-out 0.4s both;
+      }
+
+      .hero-buttons {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        animation: fadeInUp 1s ease-out 0.6s both;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--color-mathematical-gold),
+          #b8941f
+        );
+        color: var(--color-deep-navy);
+        padding: 16px 32px;
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--color-mathematical-gold);
+        padding: 16px 32px;
+        border: 2px solid var(--color-mathematical-gold);
+        border-radius: 30px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-primary:hover,
+      .btn-secondary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px var(--color-gold-glow);
+      }
+
+      .btn-secondary:hover {
+        background: var(--color-mathematical-gold);
+        color: var(--color-deep-navy);
+      }
+
+      /* Philosophy Section - Lighter Navy */
+      .philosophy {
+        padding: 120px 40px;
+        max-width: 1400px;
+        margin: 0 auto;
+        text-align: center;
+        background: linear-gradient(
+          135deg,
+          var(--color-navy-lighter),
+          transparent
+        );
+        position: relative;
+      }
+
+      .philosophy::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--color-mathematical-gold),
+          transparent
+        );
+      }
+
+      .section-title {
+        font-size: 48px;
+        font-weight: 400;
+        margin-bottom: 20px;
+        background: linear-gradient(
+          135deg,
+          var(--color-warm-white),
+          var(--color-mathematical-gold)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        position: relative;
+        text-align: center;
+      }
+
+      .section-title::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(
+          90deg,
+          var(--color-mathematical-gold),
+          #f4d03f
+        );
+        border-radius: 2px;
+      }
+
+      .section-subtitle {
+        font-size: 20px;
+        color: var(--color-mathematical-gold);
+        margin-bottom: 40px;
+        font-style: italic;
+        text-align: center;
+      }
+
+      .philosophy-content {
+        font-size: 18px;
+        line-height: 1.8;
+        max-width: 800px;
+        margin: 0 auto;
+        color: var(--color-warm-white);
+        opacity: 0.9;
+      }
+
+      .philosophy-content p {
+        margin-bottom: 24px;
+        transition: all 0.3s ease;
+      }
+
+      .philosophy-content p:hover {
+        opacity: 1;
+      }
+
+      /* Features Section - Medium Navy with Pattern */
+      .features {
+        padding: 120px 40px;
+        background: linear-gradient(
+          135deg,
+          var(--color-navy-medium),
+          var(--color-deep-navy)
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .features::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(
+            circle at 20% 80%,
+            var(--color-gold-light) 1px,
+            transparent 1px
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            var(--color-gold-light) 1px,
+            transparent 1px
+          );
+        background-size: 150px 150px, 100px 100px;
+        opacity: 0.3;
+        pointer-events: none;
+      }
+
+      .features-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+        text-align: center;
+      }
+
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 40px;
+        margin-top: 60px;
+      }
+
+      .feature-card {
+        background: linear-gradient(
+          135deg,
+          rgba(250, 250, 250, 0.08),
+          rgba(250, 250, 250, 0.03)
+        );
+        border: 1px solid var(--color-gold-glow);
+        border-radius: 20px;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+      }
+
+      .feature-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--color-mathematical-gold),
+          transparent
+        );
+      }
+
+      .feature-card::after {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          var(--color-gold-light) 1px,
+          transparent 1px
+        );
+        background-size: 20px 20px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--color-mathematical-gold);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .feature-icon {
+        font-size: 48px;
+        margin-bottom: 24px;
+        color: var(--color-mathematical-gold);
+        transition: all 0.3s ease;
+        display: inline-block;
+      }
+
+      .feature-title {
+        font-size: 24px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        color: var(--color-warm-white);
+        transition: color 0.3s ease;
+      }
+
+      .feature-description {
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--color-warm-white);
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+      }
+      /* Interactive Tools Section - Dark Navy with Geometric Lines */
+      .tools-section {
+        padding: 120px 40px;
+        background: linear-gradient(
+          135deg,
+          var(--color-navy-dark),
+          var(--color-deep-navy)
+        );
+        position: relative;
+        overflow: hidden;
+      }
+
+      .tools-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(
+            30deg,
+            transparent 49%,
+            var(--color-gold-light) 50%,
+            transparent 51%
+          ),
+          linear-gradient(
+            150deg,
+            transparent 49%,
+            var(--color-gold-light) 50%,
+            transparent 51%
+          );
+        background-size: 300px 300px;
+        opacity: 0.05;
+        pointer-events: none;
+      }
+
+      .tools-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+        text-align: center;
+      }
+
+      .tools-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+      }
+
+      .tool-card {
+        background: linear-gradient(
+          135deg,
+          rgba(250, 250, 250, 0.06),
+          rgba(250, 250, 250, 0.02)
+        );
+        border: 1px solid var(--color-gold-medium);
+        border-radius: 15px;
+        padding: 30px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(5px);
+      }
+
+      .tool-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--color-mathematical-gold);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .tool-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(
+          90deg,
+          var(--color-mathematical-gold),
+          transparent
+        );
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+      }
+
+      .tool-card:hover::before {
+        transform: scaleX(1);
+      }
+
+      /* Insights Section - Light Navy with Subtle Pattern */
+      .insights {
+        padding: 120px 40px;
+        background: linear-gradient(
+          135deg,
+          var(--color-navy-lighter),
+          var(--color-navy-light)
+        );
+        position: relative;
+      }
+
+      .insights::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(
+          circle at 30% 30%,
+          var(--color-gold-light) 1px,
+          transparent 1px
+        );
+        background-size: 80px 80px;
+        opacity: 0.2;
+        pointer-events: none;
+      }
+
+      .insights-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+        text-align: center;
+      }
+
+      .insights-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+      }
+
+      .insight-card {
+        background: linear-gradient(
+          135deg,
+          rgba(250, 250, 250, 0.1),
+          rgba(250, 250, 250, 0.05)
+        );
+        border-radius: 15px;
+        padding: 30px;
+        transition: all 0.3s ease;
+        border: 1px solid transparent;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .insight-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          var(--color-gold-light),
+          transparent
+        );
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .insight-card:hover {
+        border-color: var(--color-mathematical-gold);
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .insight-card:hover::before {
+        opacity: 0.1;
+      }
+
+      .insight-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--color-mathematical-gold);
+        margin-bottom: 12px;
+        transition: all 0.3s ease;
+      }
+
+      .insight-description {
+        font-size: 16px;
+        line-height: 1.6;
+        color: var(--color-warm-white);
+        opacity: 0.8;
+        transition: opacity 0.3s ease;
+      }
+
+      .insight-card:hover .insight-description {
+        opacity: 1;
+      }
+
+      /* Video Section - Medium Dark Navy */
+      .video-section {
+        padding: 120px 40px;
+        background: linear-gradient(
+          135deg,
+          var(--color-navy-medium),
+          var(--color-navy-dark)
+        );
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .video-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: conic-gradient(
+          from 0deg at 50% 50%,
+          transparent 0deg,
+          var(--color-gold-light) 1deg,
+          transparent 2deg
+        );
+        background-size: 200px 200px;
+        opacity: 0.03;
+        pointer-events: none;
+      }
+
+      .video-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      .video-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+      }
+
+      .video-item {
+        background: linear-gradient(
+          135deg,
+          rgba(250, 250, 250, 0.08),
+          rgba(250, 250, 250, 0.03)
+        );
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid var(--color-gold-glow);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .video-item::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          var(--color-gold-light),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .video-item:hover::before {
+        left: 100%;
+      }
+
+      .video-item:hover {
+        border-color: var(--color-mathematical-gold);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Footer - Darkest Navy */
+      .footer {
+        background: linear-gradient(135deg, var(--color-navy-dark), #0a0f1a);
+        border-top: 1px solid var(--color-gold-glow);
+        padding: 60px 40px 30px;
+        text-align: center;
+        position: relative;
+      }
+
+      .footer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(
+          circle at 50% 50%,
+          var(--color-gold-light) 1px,
+          transparent 1px
+        );
+        background-size: 50px 50px;
+        opacity: 0.1;
+        pointer-events: none;
+      }
+
+      .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 2;
+      }
+
+      .logo-infinity {
+        margin-left: 12px;
+        font-size: 24px;
+        color: var(--color-mathematical-gold);
+        animation: glow 3s ease-in-out infinite alternate;
+        font-weight: bold;
+      }
+
+      .footer-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--color-mathematical-gold);
+        margin-bottom: 20px;
+        animation: titleGlow 4s ease-in-out infinite alternate;
+      }
+
+      .footer-description {
+        font-size: 18px;
+        color: var(--color-warm-white);
+        opacity: 0.8;
+        margin-bottom: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .footer-bottom {
+        text-align: center;
+        padding-top: 30px;
+        margin-top: 30px;
+        border-top: 1px solid var(--color-gold-glow);
+        color: var(--color-warm-white);
+        opacity: 0.6;
+      }
+
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hero-content {
+          padding: 0 20px;
+        }
+
+        .hero-buttons {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .features,
+        .philosophy,
+        .insights,
+        .video-section,
+        .tools-section {
+          padding: 80px 20px;
+        }
+
+      }
+    </style>
+  </head>
+  <body">
+    <!-- Header -->
+    <header class="header" id="header">
+      <nav class="nav">
+        <a href="#" class="logo">
+          Cantor's Paradise
+          <span class="logo-infinity">∞</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#explore">Explore</a></li>
+          <li><a href="#learn">Learn</a></li>
+          <li><a href="#insights">Insights</a></li>
+          <li><a href="#about">About</a></li>
+        </ul>
+
+        <a href="#" class="cta-button">Begin Journey</a>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="video-background">
+        <video autoplay muted loop playsinline>
+          <source src="bgvid.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">Unlock mathematical wonder.</h1>
+          <p class="hero-description">
+            Mathematics holds countless moments of quiet wonder. Every formula
+            carries a story. Every proof reveals elegant reasoning. We create
+            interactive experiences that let you discover these mathematical
+            treasures through exploration and play.
+          </p>
+          <div class="hero-buttons">
+            <a href="#" class="btn-primary">Begin Your Journey</a>
+            <a href="#" class="btn-secondary">Explore Tools</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section class="philosophy scroll-reveal" id="about">
+      <div class="geometric-lines"></div>
+      <h2 class="section-title">Our Philosophy</h2>
+      <p class="section-subtitle">
+        Mathematics is meant to be discovered, not just computed
+      </p>
+      <div class="philosophy-content">
+        <p>
+          I believe mathematics is meant to be discovered, not just computed.
+          Too many students encounter formulas without ever experiencing the
+          wonder of seeing where they come from. They miss the thrill of
+          creating magic squares, the satisfaction of finding clever shortcuts,
+          the beauty of watching geometric patterns unfold.
+        </p>
+        <p>
+          This platform exists to restore that sense of mathematical play. Here,
+          you can experiment with concepts, explore visual proofs, and
+          rediscover the joy that makes mathematics extraordinary. Every tool
+          and visualization is designed to spark curiosity and reward
+          exploration.
+        </p>
+        <p>
+          Mathematics has given me countless moments of genuine wonder. My hope
+          is that these interactive experiences will create those same moments
+          for you.
+        </p>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features scroll-reveal" id="explore">
+      <div class="features-container">
+        <h2 class="section-title">Why Mathematical Discovery Matters</h2>
+        <p class="section-subtitle">
+          Interactive experiences that transform abstract mathematical concepts
+          into engaging, hands-on learning adventures
+        </p>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">👁️</div>
+            <h3 class="feature-title">Visual Understanding</h3>
+            <p class="feature-description">
+              Mathematics becomes intuitive when you can see concepts unfold.
+              Through carefully crafted animations and interactive
+              visualizations, abstract ideas transform into tangible insights
+              that stay with you.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">✨</div>
+            <h3 class="feature-title">The Joy of Discovery</h3>
+            <p class="feature-description">
+              There's profound satisfaction in uncovering mathematical truths
+              yourself. We create spaces where you can experience those "aha!"
+              moments—like discovering why Gauss's summation trick works or
+              watching patterns emerge in Pascal's triangle.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📖</div>
+            <h3 class="feature-title">Proofs as Stories</h3>
+            <p class="feature-description">
+              Mathematical proofs tell elegant stories of reasoning. Our
+              interactive experiences guide you through the logic step-by-step,
+              revealing the beautiful thinking that connects mathematical ideas.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Tools Section -->
+    <section class="tools-section scroll-reveal" id="learn">
+      <div class="tools-container">
+        <h2 class="section-title">Interactive Tools & Explorations</h2>
+        <p class="section-subtitle">
+          Hands-on mathematical experiences designed to spark curiosity
+        </p>
+
+        <div class="tools-grid">
+          <div class="tool-card">
+            <div class="feature-icon">🔍</div>
+            <h3 class="feature-title">Proof Visualizers</h3>
+            <p class="feature-description">
+              Step through famous mathematical proofs with interactive guidance.
+              Watch the Pythagorean theorem emerge through geometric
+              manipulation, or explore why there are infinitely many prime
+              numbers.
+            </p>
+          </div>
+
+          <div class="tool-card">
+            <div class="feature-icon">🎨</div>
+            <h3 class="feature-title">Pattern Workshops</h3>
+            <p class="feature-description">
+              Discover mathematical patterns through hands-on creation. Build
+              magic squares, explore Fibonacci spirals, and uncover the hidden
+              geometry in everyday shapes.
+            </p>
+          </div>
+
+          <div class="tool-card">
+            <div class="feature-icon">🎯</div>
+            <h3 class="feature-title">Estimation Adventures</h3>
+            <p class="feature-description">
+              Develop mathematical intuition through engaging estimation
+              challenges. Learn to see numbers in the world around you and build
+              confidence with mathematical reasoning.
+            </p>
+          </div>
+
+          <div class="tool-card">
+            <div class="feature-icon">🧭</div>
+            <h3 class="feature-title">Concept Explorers</h3>
+            <p class="feature-description">
+              Dive deep into mathematical ideas through multi-layered
+              interactive experiences. Each tool reveals different facets of
+              concepts like infinity, derivatives, or probability.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mathematical Insights Section -->
+    <section class="insights scroll-reveal" id="insights">
+      <div class="insights-container">
+        <h2 class="section-title">Mathematical Insights</h2>
+        <p class="section-subtitle">
+          Explore the beauty and elegance of mathematical concepts
+        </p>
+
+        <div class="insights-grid">
+          <div class="insight-card">
+            <h3 class="insight-title">The Beauty of Mathematical Induction</h3>
+            <p class="insight-description">
+              Discover how mathematical induction works like climbing an
+              infinite ladder, with visual examples that make this powerful
+              technique accessible.
+            </p>
+          </div>
+
+          <div class="insight-card">
+            <h3 class="insight-title">Estimating Pi with Random Dots</h3>
+            <p class="insight-description">
+              Learn how scattered points can reveal one of mathematics' most
+              famous constants, complete with an interactive simulation you can
+              explore.
+            </p>
+          </div>
+
+          <div class="insight-card">
+            <h3 class="insight-title">
+              Why Euler's Identity Captivates Mathematicians
+            </h3>
+            <p class="insight-description">
+              Unpack the elegant relationship between five fundamental
+              mathematical constants in this visual journey through complex
+              analysis.
+            </p>
+          </div>
+        </div>
+
+        <!-- Manim Integration Area -->
+      </div>
+    </section>
+
+    <!-- Visual Mathematics Section -->
+    <section class="video-section scroll-reveal">
+      <div class="video-container">
+        <h2 class="section-title">Visual Mathematics</h2>
+        <p class="section-subtitle">
+          Experience mathematics through animation and storytelling
+        </p>
+        <p
+          style="
+            color: var(--color-warm-white);
+            opacity: 0.8;
+            margin-bottom: 30px;
+          "
+        >
+          Our video content brings mathematical concepts to life, from the
+          spirals hidden in sunflowers to the infinite patterns in fractals.
+        </p>
+
+        <div class="video-list">
+          <div class="video-item">
+            <h4
+              style="color: var(--color-mathematical-gold); margin-bottom: 10px"
+            >
+              The Geometry of Paper Folding
+            </h4>
+            <p style="font-size: 14px; opacity: 0.8">
+              Explore the mathematical principles behind origami
+            </p>
+          </div>
+          <div class="video-item">
+            <h4
+              style="color: var(--color-mathematical-gold); margin-bottom: 10px"
+            >
+              How Infinity Works in Mathematics
+            </h4>
+            <p style="font-size: 14px; opacity: 0.8">
+              A visual journey through different types of infinity
+            </p>
+          </div>
+          <div class="video-item">
+            <h4
+              style="color: var(--color-mathematical-gold); margin-bottom: 10px"
+            >
+              Patterns in Prime Numbers
+            </h4>
+            <p style="font-size: 14px; opacity: 0.8">
+              Discovering order in mathematical chaos
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer scroll-reveal">
+      <div class="footer-content">
+        <h3 class="footer-title">Begin Your Mathematical Journey</h3>
+        <p class="footer-description">
+          Every mathematical concept you'll explore here started with someone's
+          curiosity. Your next mathematical discovery is waiting. Choose any
+          tool, read any insight, watch any visualization—let your curiosity
+          guide the way.
+        </p>
+        <div class="hero-buttons" style="justify-content: center">
+          <a href="#" class="btn-primary">Start Exploring</a>
+          <a href="#" class="btn-secondary">Join Community</a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2025 Cantor's Paradise.</p>
+      </div>
+    </footer>
+  </body>
+</html>
